@@ -1,7 +1,6 @@
 /*12 урок. Практика ч.1 Начинаем создавать приложение.*/
-
-  
 /* Задание на урок:
+
 1) Создать переменную numberOfFilms и в неё поместить ответ от пользователя на вопрос:
 'Сколько фильмов вы уже посмотрели?'
 2) Создать объект personalMovieDB и в него поместить такие свойства:
@@ -22,8 +21,8 @@
 
 "use strict"; //директива для объявления скриптовому файлу, что мы работаем в современном режиме
 
-let numberOfFilms = prompt("Сколько фильмов вы уже посмотрели?", ""),
-    personaMovieDB = {
+const numberOfFilms = +prompt("Сколько фильмов вы уже посмотрели?", ""); //
+const personaMovieDB = {
         count: numberOfFilms,
         movies: {},
         actor: {},
@@ -31,12 +30,12 @@ let numberOfFilms = prompt("Сколько фильмов вы уже посмо
         privat: false
     };
 
-let questionNameOneFilm = prompt("Один из последних просмотренных фильмов?", ""),
-    questionRatingOneFilm = prompt("На сколько оцените его?", ""),
-    questionNameTwoFilm = prompt("Один из последних просмотренных фильмов?", ""),
-    questionRatingTwoFilm = prompt("На сколько оцените его?", "");
+const a = prompt("Один из последних просмотренных фильмов?", ""),
+      b = prompt("На сколько оцените его?", ""),
+      c = prompt("Один из последних просмотренных фильмов?", ""),
+      d = prompt("На сколько оцените его?", "");
 
-personaMovieDB.movies[questionNameOneFilm] = questionRatingOneFilm;
-personaMovieDB.movies[questionNameTwoFilm] = questionRatingTwoFilm;
+personaMovieDB.movies[a] = b;
+personaMovieDB.movies[c] = d;
 
 console.log(personaMovieDB);
