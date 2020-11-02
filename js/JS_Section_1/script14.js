@@ -14,7 +14,7 @@ do {
 }
 while (nums < 55);
 
-numsf = 50;
+let numsf = 50;
 for (let i = 1; i < 8; i++) {
     console.log(numsf);
     numsf++;

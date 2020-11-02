@@ -22,7 +22,7 @@
 "use strict"; //директива для объявления скриптовому файлу, что мы работаем в современном режиме
 
 const numberOfFilms = +prompt("Сколько фильмов вы уже посмотрели?", ""); //
-const personaMovieDB = {
+const personalMovieDB = {
         count: numberOfFilms,
         movies: {},
         actor: {},
@@ -35,7 +35,7 @@ const a = prompt("Один из последних просмотренных ф
       c = prompt("Один из последних просмотренных фильмов?", ""),
       d = prompt("На сколько оцените его?", "");
 
-personaMovieDB.movies[a] = b;
-personaMovieDB.movies[c] = d;
+personalMovieDB.movies[a] = b;
+personalMovieDB.movies[c] = d;
 
-console.log(personaMovieDB);
+console.log(personalMovieDB);
