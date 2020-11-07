@@ -66,6 +66,19 @@ const personalMovieDB = {
                 } else {
                     personalMovieDB.genres[i - 1] = genre;
                 }
+
+            // Альтернативный вариант из урока
+            
+            // let genres = prompt(`Введите ваши любимые жанры через запятую`).toLowerCase();
+
+            // if (genres === '' || genres == null) {
+            //     console.log('Вы ввели некорректные данные или не ввели их вовсе');
+            //     i--;
+            // } else {
+            //     personalMovieDB.genres = genres.split(', ');
+            //     personalMovieDB.genres.sort();
+            // } 
+
             }
             personalMovieDB.genres.forEach(function(item, i) { //(значение, индекс, массив)
                 console.log(`Любимый жанр ${i+1} - это ${item}`);
