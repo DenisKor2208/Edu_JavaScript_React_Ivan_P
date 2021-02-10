@@ -117,7 +117,7 @@ modalTrigger.forEach(btn => {
          * так же есть вариант использования открытия/закрытия модального окна modal.classList.toggle('show');
          */
     });
-});
+}); 
 
 function closeModal() {
     modal.classList.add('hide');
@@ -125,10 +125,8 @@ function closeModal() {
     document.body.style.overflow = '';
 }
 
-modalCloseBtn.addEventListener('click', closeModal); //вызываем функцию closeModal
-
 modal.addEventListener('click', (event) => { //закрытие модального окна при клике на серую область
-    if (event.target === modal) { //если "куда кликнул пользователь" является modal - строгое соответствие
+    if (event.target === modal || event.target.getAttribute('data-close') == '') { //если "куда кликнул пользователь" является modal - строгое соответствие или на какой-то элемент с атрибутом data-close
         closeModal();
     }
 });
@@ -152,7 +150,7 @@ function openModal() {
 
 const modalTimerId = setTimeout(() => {
     openModal();
-}, 15000);
+}, 50000);
 
 /*Модальное окно при долистывании пользователем страницы до конца*/
 function showModalByScroll() {
@@ -251,7 +249,7 @@ new MenuCard(
 
     const forms = document.querySelectorAll('form'); //получаем все формы по тегу form
     const message = { //для информирования пользователя о результатах запроса
-        loading: 'Загрузка...',
+        loading: 'img/form/spinner.svg',
         success: 'Спасибо! Скоро мы с вами свяжемся',
         failure: 'Что-то пошло не так...'
     };
@@ -264,10 +262,14 @@ new MenuCard(
         form.addEventListener('submit', (e) => { //submit срабатывает каждый раз когда мы пытаемся отправить какую-то форму
             e.preventDefault(); //отменяем стандартное поведение браузера
 
-            let statusMessage = document.createElement('div'); //создаем блок для вывода информационных сообщений для пользователя
-            statusMessage.classList.add('status'); //добавляем класс в блок
-            statusMessage.textContent = message.loading; //помещаем в блок сообщение которое мы хотим показать(загрузка)
-            form.appendChild(statusMessage); //добавляем блок с сообщением в форму
+            let statusMessage = document.createElement('img'); //создаем элемент для вывода спинера загрузки
+            statusMessage.src = message.loading; //добавляем атрибут src с путем к картинке в элемент img
+            statusMessage.style.cssText = `
+                display: block;
+                margin: 0 auto;
+            `; //добавляем стили к созданному нами элементу напрямую
+            
+            form.insertAdjacentElement('afterend', statusMessage); //добавляем спинер загрузки в форму
             
             /*   Когда используется связка XMLHttpRequest и FormData, то нам заголовок устанавливать не нужно.
              * Он будет устанавливаться автоматически. Из за этой проблемы мы можем на сервере не получить отправленных с формы данных.
@@ -288,19 +290,41 @@ new MenuCard(
             request.addEventListener('load', () => { //отслеживаем загрузку нашего запроса
                 if (request.status === 200) {
                     console.log(request.response);
-                    statusMessage.textContent = message.success; //помещаем в блок с информационными сообщениями текст об успешном запросе
+                    showThanksModal(message.success); //помещаем в блок с информационными сообщениями текст об успешном запросе
                     form.reset(); //очищаем форму после отправки
-                    setTimeout(() => { //закрываем поле с сообщением после 2 секунд
-                        statusMessage.remove();
-                    }, 2000);
+                    statusMessage.remove();
                 } else {
-                    statusMessage.textContent = message.failure;
+                    showThanksModal(message.failure);
                 }
             });
         });
     }
 
+    // window thanks
+    function showThanksModal(message) { 
+        const prevModalDialog = document.querySelector('.modal__dialog'); //получаем подложку под модальным окном
 
+        prevModalDialog.classList.add('hide'); //скрываем подложку с модальным окном
+        openModal();
+
+        const thanksModal = document.createElement('div'); //создаем новый div
+        thanksModal.classList.add('modal__dialog'); //добавляем div-у класс подложки - мы заменили одну подложку на другую
+        
+        /*Добавляем верстку в новую нами созданную подложку*/
+        thanksModal.innerHTML = `
+            <div class="modal__content">
+                <div class="modal__close" data-close>×</div>
+                <div class="modal__title">${message}</div>
+            </div>
+        `;
+        document.querySelector('.modal').append(thanksModal); //устанавливаем созданный нами div в элемент modal
+        setTimeout(() => { //
+            thanksModal.remove(); //удаляем созданный нами div с элемента modal
+            prevModalDialog.classList.add('show'); //показываем модальное окно
+            prevModalDialog.classList.remove('hide'); //удаляем класс hide
+            closeModal(); 
+        }, 4000);
+    }
 
 
 
